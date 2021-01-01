@@ -10,12 +10,14 @@ This behavior is based on tcsh.
 
 ## How to use
 
-Add the following line to `.bashrc`.
+Add the following lines to `.bashrc`.
 ```sh
 source /path/to/history_search_like_tcsh.sh
+export PROMPT_COMMAND=__bhslt_clear_state
+bind -x '"\ep": __bhslt_search_backward'
+bind -x '"\en": __bhslt_search_forward'
 ```
 
-This script overwrites `PROMPT_COMMAND` to clear internal state.  
 If your `.bashrc` already sets a function to `PROMPT_COMMAND`, you should also call `__bhslt_clear_state` in the function.
 
 # License

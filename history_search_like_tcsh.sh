@@ -65,8 +65,3 @@ __bhslt_search_forward() {
         __bhslt_readline_point=$READLINE_POINT
     fi
 }
-
-export PROMPT_COMMAND=__bhslt_clear_state
-
-bind -x '"\ep": __bhslt_search_backward'
-bind -x '"\en": __bhslt_search_forward'
