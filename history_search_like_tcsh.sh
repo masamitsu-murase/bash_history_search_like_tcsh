@@ -23,7 +23,7 @@ __bhslt_search_backward() {
     if [[ $__bhslt_current_match_index -eq -1 ]]; then
         local PREFIX="${READLINE_LINE:0:$READLINE_POINT}"
 
-        { coproc FC_FD { fc -lnr -$HISTSIZE ; } ; } 2>/dev/null
+        { coproc FC_FD { fc -lnr -${HISTSIZE:-1000} ; } ; } 2>/dev/null
         local PREFIX_LEN=${#PREFIX}
         declare -A HISTORY_HASH
         local LINE=""
