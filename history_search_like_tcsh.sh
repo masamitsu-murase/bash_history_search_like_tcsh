@@ -55,14 +55,12 @@ __bhslt_search_backward() {
 __bhslt_search_forward() {
     __bhslt_check_state
 
-    if [ $__bhslt_current_match_index -ne -1 ]; then
-        if [ $__bhslt_current_match_index -gt 0 ]; then
-            __bhslt_current_match_index=$(($__bhslt_current_match_index-1))
-            READLINE_LINE="${__bhslt_history_array[$__bhslt_current_match_index]}"
-            READLINE_POINT="${#READLINE_LINE}"
-            __bhslt_readline_line=$READLINE_LINE
-            __bhslt_readline_point=$READLINE_POINT
-        fi
+    if [ $__bhslt_current_match_index -gt 0 ]; then
+        __bhslt_current_match_index=$(($__bhslt_current_match_index-1))
+        READLINE_LINE="${__bhslt_history_array[$__bhslt_current_match_index]}"
+        READLINE_POINT="${#READLINE_LINE}"
+        __bhslt_readline_line=$READLINE_LINE
+        __bhslt_readline_point=$READLINE_POINT
     fi
 }
 
