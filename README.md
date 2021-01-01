@@ -1,6 +1,22 @@
 # history-search like tcsh
 
-Sample script using `coproc` on bash.
+I developed this script to learn the usage of `coproc` on bash.
+
+## Overview
+
+This bash script provides `__bhslt_search_backward` and `__bhslt_search_forward`.  
+They are similar to `history-search-backward` and `history-search-forward` in bash, but they put cursor at the end of the line.  
+This behavior is based on tcsh.
+
+## How to use
+
+Add the following line to `.bashrc`.
+```sh
+source /path/to/history_search_like_tcsh.sh
+```
+
+This script overwrites `PROMPT_COMMAND` to clear internal state.  
+If your `.bashrc` already sets a function to `PROMPT_COMMAND`, you should also call `__bhslt_clear_state` in the function.
 
 # License
 
