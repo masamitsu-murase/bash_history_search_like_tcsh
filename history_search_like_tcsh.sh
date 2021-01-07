@@ -28,7 +28,8 @@ __bhslt_search_backward() {
         local PREFIX_LEN=${#PREFIX}
         declare -A HISTORY_HASH
         declare -a BLOCK_LINES=()
-        local IFS
+        local IFS=$'\n'
+        local GLOBIGNORE='*'
         local BLOCK
         local REST=""
         local LOOP="1"
@@ -42,12 +43,8 @@ __bhslt_search_backward() {
                 LOOP="0"
             fi
 
-            BLOCK_LINES=()
-            IFS=$'\n'
             BLOCK="${REST}${BLOCK}"
-            for LINE in $BLOCK; do
-                BLOCK_LINES+=( "$LINE" )
-            done
+            BLOCK_LINES=($BLOCK)
             REST=""
             if [[ "${BLOCK: -1}" != $'\n' ]]; then
                 REST="${BLOCK_LINES[-1]}"
