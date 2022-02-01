@@ -24,24 +24,42 @@ __bhslt_search_backward() {
     if [[ $__bhslt_current_match_index -eq -1 ]]; then
         local PREFIX="${READLINE_LINE:0:$READLINE_POINT}"
 
-        local FC=$(POSIXLY_CORRECT="1" fc -lnr -${HISTSIZE:-1000})
+        { coproc FC_FD { POSIXLY_CORRECT="1" fc -lnr -${HISTSIZE:-1000} ; } ; } 2>/dev/null
         local PREFIX_LEN=${#PREFIX}
         declare -A HISTORY_HASH
         declare -a BLOCK_LINES=()
         local IFS=$'\n'
         local GLOBIGNORE='*'
+        local BLOCK
+        local REST=""
+        local LOOP="1"
         local LINE=""
-
-        BLOCK_LINES=($FC)
-
-        local i
-        for ((i=0; i<${#BLOCK_LINES[@]}; i++)); do
-            LINE="${BLOCK_LINES[$i]:1}"
-            if [[ -n "$LINE" && -z "${HISTORY_HASH[$LINE]}" && "${LINE:0:$PREFIX_LEN}" == "$PREFIX" ]]; then
-                HISTORY_HASH[$LINE]="1"
-                __bhslt_history_array+=( "$LINE" )
+        while [[ $LOOP == "1" ]]; do
+            read -r -u ${FC_FD[0]} -N 4096 BLOCK
+            if [[ $? -ne 0 ]]; then
+                if [[ -z "$BLOCK" ]]; then
+                    break
+                fi
+                LOOP="0"
             fi
+
+            BLOCK="${REST}${BLOCK}"
+            BLOCK_LINES=($BLOCK)
+            REST=""
+            if [[ "${BLOCK: -1}" != $'\n' ]]; then
+                REST="${BLOCK_LINES[-1]}"
+                unset BLOCK_LINES[-1]
+            fi
+            local i
+            for ((i=0; i<${#BLOCK_LINES[@]}; i++)); do
+                LINE="${BLOCK_LINES[$i]:1}"
+                if [[ -n "$LINE" && -z "${HISTORY_HASH[$LINE]}" && "${LINE:0:$PREFIX_LEN}" == "$PREFIX" ]]; then
+                    HISTORY_HASH[$LINE]="1"
+                    __bhslt_history_array+=( "$LINE" )
+                fi
+            done
         done
+        wait $FC_FD_PID 2>/dev/null
 
         if [[ ${#__bhslt_history_array[@]} -gt 0 ]]; then
             __bhslt_current_match_index=0

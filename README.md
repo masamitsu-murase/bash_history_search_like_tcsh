@@ -1,5 +1,7 @@
 # history-search like tcsh
 
+I developed this script to learn the usage of `coproc` on bash.
+
 ## Overview
 
 This bash script provides `__bhslt_search_backward` and `__bhslt_search_forward`.  
