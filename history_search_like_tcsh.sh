@@ -64,10 +64,13 @@ __bhslt_search_backward() {
     if [[ $__bhslt_current_match_index -eq -1 ]]; then
         local PREFIX="${READLINE_LINE:0:$READLINE_POINT}"
 
-	{ coproc FC_FD { POSIXLY_CORRECT="1" fc -lnr -${HISTSIZE:-1000} ; } ; } 2>/dev/null
-        local FC_PID=$FC_FD_PID
-        __bhslt_find_matched_commands $PREFIX ${FC_FD[0]}
-        wait $FC_PID 2>/dev/null
+        { coproc FC_FD { POSIXLY_CORRECT="1" fc -lnr -${HISTSIZE:-1000} ; exec 1>&- ; read -s ; } ; } 2>/dev/null
+        disown
+        local FC_FD0=${FC_FD[0]}
+        local FC_FD1=${FC_FD[1]}
+        __bhslt_find_matched_commands $PREFIX ${FC_FD0}
+        echo END >&${FC_FD1}
+        # wait ${FC_FD_PID}
 
         if [[ ${#__bhslt_history_array[@]} -gt 0 ]]; then
             __bhslt_current_match_index=0
