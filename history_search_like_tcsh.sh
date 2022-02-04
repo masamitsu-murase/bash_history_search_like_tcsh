@@ -32,29 +32,29 @@ __bhslt_find_matched_commands() {
     local LOOP="1"
     local LINE=""
     while [[ $LOOP == "1" ]]; do
-	read -r -u $FC_FD0 -N 4096 BLOCK
-	if [[ $? -ne 0 ]]; then
-	    if [[ -z "$BLOCK" ]]; then
-		break
-	    fi
-	    LOOP="0"
+        read -r -u $FC_FD0 -N 4096 BLOCK
+        if [[ $? -ne 0 ]]; then
+            if [[ -z "$BLOCK" ]]; then
+                break
+            fi
+            LOOP="0"
 	fi
 
-	BLOCK="${REST}${BLOCK}"
-	BLOCK_LINES=($BLOCK)
-	REST=""
-	if [[ "${BLOCK: -1}" != $'\n' ]]; then
-	    REST="${BLOCK_LINES[-1]}"
-	    unset BLOCK_LINES[-1]
-	fi
-	local i
-	for ((i=0; i<${#BLOCK_LINES[@]}; i++)); do
-	    LINE="${BLOCK_LINES[$i]:1}"
-	    if [[ -n "$LINE" && -z "${HISTORY_HASH[$LINE]}" && "${LINE:0:$PREFIX_LEN}" == "$PREFIX" ]]; then
-		HISTORY_HASH[$LINE]="1"
-		__bhslt_history_array+=( "$LINE" )
-	    fi
-	done
+        BLOCK="${REST}${BLOCK}"
+        BLOCK_LINES=($BLOCK)
+        REST=""
+        if [[ "${BLOCK: -1}" != $'\n' ]]; then
+            REST="${BLOCK_LINES[-1]}"
+            unset BLOCK_LINES[-1]
+        fi
+        local i
+        for ((i=0; i<${#BLOCK_LINES[@]}; i++)); do
+            LINE="${BLOCK_LINES[$i]:1}"
+            if [[ -n "$LINE" && -z "${HISTORY_HASH[$LINE]}" && "${LINE:0:$PREFIX_LEN}" == "$PREFIX" ]]; then
+                HISTORY_HASH["$LINE"]="1"
+                __bhslt_history_array+=( "$LINE" )
+            fi
+        done
     done
 }
 
@@ -68,7 +68,7 @@ __bhslt_search_backward() {
         disown
         local FC_FD0=${FC_FD[0]}
         local FC_FD1=${FC_FD[1]}
-        __bhslt_find_matched_commands $PREFIX ${FC_FD0}
+        __bhslt_find_matched_commands "$PREFIX" ${FC_FD0}
         echo END >&${FC_FD1}
         # wait ${FC_FD_PID}
 
