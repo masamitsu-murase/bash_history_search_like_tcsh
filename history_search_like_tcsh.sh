@@ -68,7 +68,7 @@ __bhslt_search_backward() {
         disown
         local FC_FD0=${FC_FD[0]}
         local FC_FD1=${FC_FD[1]}
-        __bhslt_find_matched_commands $PREFIX ${FC_FD0}
+        __bhslt_find_matched_commands "$PREFIX" ${FC_FD0}
         echo END >&${FC_FD1}
         # wait ${FC_FD_PID}
 
