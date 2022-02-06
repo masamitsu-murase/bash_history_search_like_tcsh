@@ -20,7 +20,7 @@ __bhslt_check_state() {
 
 __bhslt_find_matched_commands() {
     local PREFIX=$1
-    local FC_FD0=${FC_FD[0]}
+    local FC_FD0=$2
 
     local PREFIX_LEN=${#PREFIX}
     declare -A HISTORY_HASH
