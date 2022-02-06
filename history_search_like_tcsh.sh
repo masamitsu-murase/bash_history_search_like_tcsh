@@ -20,7 +20,7 @@ __bhslt_check_state() {
 
 __bhslt_find_matched_commands() {
     local PREFIX=$1
-    local FC_FD0=${FC_FD[0]}
+    local FC_FD0=$2
 
     local PREFIX_LEN=${#PREFIX}
     declare -A HISTORY_HASH
@@ -34,7 +34,7 @@ __bhslt_find_matched_commands() {
     while [[ $LOOP == "1" ]]; do
         read -r -u $FC_FD0 -N 4096 BLOCK
         if [[ $? -ne 0 ]]; then
-            if [[ -z "$BLOCK" ]]; then
+            if [[ -z "$BLOCK" && -z "$REST" ]]; then
                 break
             fi
             LOOP="0"
