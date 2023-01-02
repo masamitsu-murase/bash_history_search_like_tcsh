@@ -1,4 +1,4 @@
-# Version 1.4.0
+# Version 1.5.0
 
 __bhslt_current_match_index=-1
 __bhslt_history_array=()
