@@ -5,7 +5,7 @@ __bhslt_history_array=()
 __bhslt_readline_line=""
 __bhslt_readline_point=-1
 
-__bhslt_clear_state() {
+bhslt_clear_state() {
     __bhslt_current_match_index=-1
     __bhslt_history_array=()
     __bhslt_readline_line=""
@@ -14,7 +14,7 @@ __bhslt_clear_state() {
 
 __bhslt_check_state() {
     if [[ "${READLINE_LINE}" != "$__bhslt_readline_line" || ${READLINE_POINT} -ne $__bhslt_readline_point ]]; then
-        __bhslt_clear_state
+        bhslt_clear_state
     fi
 }
 
@@ -38,7 +38,7 @@ __bhslt_find_matched_commands() {
                 break
             fi
             LOOP="0"
-	fi
+        fi
 
         BLOCK="${REST}${BLOCK}"
         BLOCK_LINES=($BLOCK)
@@ -58,7 +58,7 @@ __bhslt_find_matched_commands() {
     done
 }
 
-__bhslt_search_backward() {
+bhslt_search_backward() {
     __bhslt_check_state
 
     if [[ $__bhslt_current_match_index -eq -1 ]]; then
@@ -90,7 +90,7 @@ __bhslt_search_backward() {
     fi
 }
 
-__bhslt_search_forward() {
+bhslt_search_forward() {
     __bhslt_check_state
 
     if [[ $__bhslt_current_match_index -gt 0 ]]; then

@@ -4,7 +4,7 @@ I developed this script to learn the usage of `coproc` on bash.
 
 ## Overview
 
-This bash script provides `__bhslt_search_backward` and `__bhslt_search_forward`.  
+This bash script provides `bhslt_search_backward` and `bhslt_search_forward`.  
 They are similar to `history-search-backward` and `history-search-forward` in bash, but they put cursor at the end of the line.  
 This behavior is based on tcsh.
 
@@ -13,12 +13,12 @@ This behavior is based on tcsh.
 Add the following lines to `.bashrc`.
 ```sh
 source /path/to/history_search_like_tcsh.sh
-export PROMPT_COMMAND=__bhslt_clear_state
-bind -x '"\ep": __bhslt_search_backward'
-bind -x '"\en": __bhslt_search_forward'
+export PROMPT_COMMAND=bhslt_clear_state
+bind -x '"\ep": bhslt_search_backward'
+bind -x '"\en": bhslt_search_forward'
 ```
 
-If your `.bashrc` already sets a function to `PROMPT_COMMAND`, you should also call `__bhslt_clear_state` in the function.
+If your `.bashrc` already sets a function to `PROMPT_COMMAND`, you should also call `bhslt_clear_state` in the function.
 
 # License
 
