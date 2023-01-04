@@ -5,7 +5,7 @@ I developed this script to learn the usage of `coproc` on bash.
 ## Overview
 
 This bash script provides `bhslt_search_backward` and `bhslt_search_forward`.  
-They are similar to `history-search-backward` and `history-search-forward` in bash, but they put cursor at the end of the line.  
+They are similar to `history-search-backward` and `history-search-forward` in bash, but they **put cursor at the end of the line**.  
 This behavior is based on tcsh.
 
 ## How to use
